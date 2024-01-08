@@ -1,0 +1,8 @@
+ celery -A tms_ecoshop inspect registered        проверить зарегистированные таски
+ 
+1. Запускаем воркеры 
+ celery -A vristo  worker -l info --pool=solo   
+2. Запускаем флавер
+ celery -A vristo flower 
+3. Запускаем таскі по расписанию 
+ celery -A vristo beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
