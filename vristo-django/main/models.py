@@ -85,6 +85,8 @@ class Website(models.Model):
     domain_hash = models.CharField(max_length=128, blank=True, editable=False)
     hosting = models.ForeignKey(Hosting, on_delete=models.CASCADE)
     cdn = models.ForeignKey(CDN, on_delete=models.CASCADE, null=True, blank=True)
+    check_enabled = models.BooleanField(default=True)
+    deactivated = models.BooleanField(default=False)
     note = models.TextField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):

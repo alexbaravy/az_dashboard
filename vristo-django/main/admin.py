@@ -68,13 +68,14 @@ class HostingCategoryAdmin(admin.ModelAdmin):
 
 
 class HostingAdmin(admin.ModelAdmin):
-    fields = ['ip', 'category', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'note']
+    fields = ['ip', 'category', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'check_enabled',
+              'deactivated', 'note']
     list_display = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
     search_fields = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
 
 
 class CDNAdmin(admin.ModelAdmin):
-    fields = ['ip', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'note']
+    fields = ['ip', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'check_enabled', 'deactivated', 'note']
     list_display = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
     search_fields = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
 
@@ -85,8 +86,8 @@ class WebsiteCategoryAdmin(admin.ModelAdmin):
 
 
 class WebsiteAdmin(admin.ModelAdmin):
-    fields = ['name', 'category', 'domain', 'hosting', 'cdn', 'note']
-    list_display = ['name', 'category', 'domain', 'hosting', 'cdn', 'note']
+    fields = ['name', 'category', 'domain', 'hosting', 'cdn', 'check_enabled', 'deactivated', 'note']
+    list_display = ['name', 'category', 'domain', 'hosting', 'cdn', 'domain_hash', 'note']
     search_fields = ['name', 'category', 'domain', 'hosting', 'cdn', 'note']
 
 
