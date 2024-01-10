@@ -1,5 +1,6 @@
 import hashlib
 from django.db import models
+from django.utils import timezone
 
 
 # Create your models here.
@@ -96,3 +97,11 @@ class Website(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UnavailableLog(models.Model):
+    website = models.ForeignKey(Website, on_delete=models.CASCADE)
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(null=True, blank=True)
+    start_status = models.IntegerField(null=True, blank=True)
+    end_status = models.IntegerField(null=True, blank=True)

@@ -4,6 +4,7 @@ from django.utils.html import format_html
 from .models import ServiceProvider
 from .models import Domain, Hosting, HostingCategory, CDN
 from .models import Website, WebsiteCategory
+from .models import UnavailableLog
 from .widgets import CustomTextInput
 
 
@@ -20,7 +21,8 @@ class MainAdminSite(AdminSite):
             'Domains': 5,
             'Hostings': 5,
             'CDN Providers': 6,
-            'Websites': 7
+            'Websites': 7,
+            'Unavailable logs': 8
         }
 
         app_dict = self._build_app_dict(request)
@@ -79,6 +81,11 @@ class WebsiteAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'domain', 'hosting', 'cdn', 'domain_hash', 'note']
     search_fields = ['name', 'category', 'domain', 'hosting', 'cdn', 'note']
 
+class UnavailableLogAdmin(admin.ModelAdmin):
+    fields = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
+    list_display = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
+    search_fields = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
+
 
 main_admin_site = MainAdminSite(name='main_admin')
 
@@ -91,3 +98,4 @@ main_admin_site.register(Hosting, HostingAdmin)
 main_admin_site.register(CDN, CDNAdmin)
 
 main_admin_site.register(Website, WebsiteAdmin)
+main_admin_site.register(UnavailableLog, UnavailableLogAdmin)

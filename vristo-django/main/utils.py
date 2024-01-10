@@ -2,6 +2,8 @@ import telebot
 import logging
 import requests
 from bs4 import BeautifulSoup
+from django.utils import timezone
+from .models import Website, UnavailableLog
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +19,23 @@ def send_notification(result):
     logger.info(f"Notification: {result}")
 
 
-def check_website(url, domain_hash):
+def send_unavailable_log(id, response):
+    website = Website.objects.get(id=id)
+    latest_issue = website.unavailablelog_set.order_by('-id').first()
+    if latest_issue is None or (latest_issue.start_status != response.status_code):
+        UnavailableLog.objects.filter(website_id=id, end_date=None).update(
+            end_date=timezone.now(),
+            end_status=response.status_code
+        )
+
+        UnavailableLog.objects.create(
+            website=website,
+            end_date=None,
+            start_status=response.status_code
+        )
+
+
+def check_website(id, url, domain_hash):
     try:
         response = requests.get(url)
 
@@ -29,6 +47,7 @@ def check_website(url, domain_hash):
                 result = f'{url}: OK'
             else:
                 result = f"{url}: Error: Tag 'az-verification' not found or hash value does not match."
+                response.status_code = 299
         else:
             result = f"{url}: Error: HTTP {response.status_code}"
 
@@ -36,6 +55,7 @@ def check_website(url, domain_hash):
         result = f"{url}: Error: {str(e)}"
     finally:
         send_notification(result)
+        send_unavailable_log(id, response)
         return result
 
 

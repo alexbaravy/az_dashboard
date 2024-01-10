@@ -6,16 +6,15 @@ from .utils import send_notification, check_website, notify_services
 from django.contrib.auth.models import User
 
 
-
 @shared_task
 def get_websites():
     websites = Website.objects.filter(
         check_enabled=True,
         deactivated=False
-    ).values('domain__url', 'domain_hash')
+    ).values('id', 'domain__url', 'domain_hash')
 
     for website in websites:
-        check_website(website['domain__url'], website['domain_hash'])
+        check_website(website['id'], website['domain__url'], website['domain_hash'])
 
 
 @shared_task
@@ -34,4 +33,3 @@ def get_expiration_services():
     cdn_services = CDN.objects.filter(end_date__lt=days_later, check_enabled=True,
                                       deactivated=False).values('ip', 'end_date')
     notify_services(cdn_services, 'CDN')
-
