@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin import AdminSite
-
 from django.utils.html import format_html
 from .models import ServiceProvider
 from .models import Domain, Hosting, HostingCategory, CDN
@@ -50,17 +49,6 @@ class DomainAdmin(admin.ModelAdmin):
     list_display = ['url', 'start_date', 'end_date', 'note']
     search_fields = ['url', 'start_date', 'end_date', 'note']
 
-    # class Meta:
-    #     widgets = {
-    #         'url': CustomTextInput(),
-    #         'service_provider': CustomTextInput(),
-    #         'start_date': CustomTextInput(),
-    #         'end_date': CustomTextInput(),
-    #         'check_enabled': CustomTextInput(),
-    #         'deactivated': CustomTextInput(),
-    #         'url': CustomTextInput(),
-    #     }
-
 
 class HostingCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
@@ -75,7 +63,8 @@ class HostingAdmin(admin.ModelAdmin):
 
 
 class CDNAdmin(admin.ModelAdmin):
-    fields = ['ip', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'check_enabled', 'deactivated', 'note']
+    fields = ['ip', 'service_provider', 'start_date', 'end_date', 'login', 'password', 'check_enabled', 'deactivated',
+              'note']
     list_display = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
     search_fields = ['ip', 'start_date', 'end_date', 'login', 'password', 'note']
 
