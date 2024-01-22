@@ -48,7 +48,7 @@ services:
     volumes:
        - ./vristo-django:/app
     ports:
-      - "5566:5555"
+      - "5555:5555"
     environment:
       CELERY_BROKER_URL: redis://redis
       CELERY_RESULT_BACKEND: redis://redis
