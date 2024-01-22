@@ -38,3 +38,5 @@ COPY backup.sql /app/
 #
 ## Откройте порт, который ваше приложение будет использовать
 #EXPOSE 8000
+
+RUN apk update && apk add redis

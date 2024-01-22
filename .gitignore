@@ -120,7 +120,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+vristo-django/.env
 .venv
 env/
 venv/
