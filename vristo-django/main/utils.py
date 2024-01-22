@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 # telegram API keys
 BOT = telebot.TeleBot('6160113526:AAEpoXM_F43Fi9jMQ-1SUJ2ngFB-CtMNQKA')
-CHAT_ID = '-4034704995'
+CHAT_ID = '-4116845078'
 
 AZ_VERIFICATION_TAG = 'az-verification'
 

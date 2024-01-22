@@ -14,6 +14,7 @@ COPY .venv/Lib/site-packages/az_admin /usr/local/lib/python3.11/site-packages/az
 COPY requirements.txt /app/
 
 # Установите зависимости
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Скопируйте код приложения в контейнер
