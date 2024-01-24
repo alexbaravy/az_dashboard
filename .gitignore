@@ -13,7 +13,6 @@ static/
 static_src/
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
