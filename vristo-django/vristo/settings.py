@@ -111,6 +111,7 @@ DATABASES = {
         'USER': os.environ.get('SQL_USER', 'dashboard'),
         'PASSWORD': os.environ.get('SQL_PASSWORD', 'dashboard'),
         'HOST': os.environ.get('SQL_HOST', 'localhost'),
+        # 'HOST': 'localhost',
         'PORT': os.environ.get('SQL_PORT','5432'),
     }
 }
