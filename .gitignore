@@ -160,6 +160,7 @@ cython_debug/
 .idea/
 templates/
 static/
-static/assets/
-static/plugins/
 static_src/
+/vristo-django/az_admin/static/
+/vristo-django/az_admin/static/assets/
+/vristo-django/az_admin/static/plugins/
