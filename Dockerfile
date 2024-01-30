@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED 1
 # Установите рабочую директорию внутри контейнера
 WORKDIR /app
 
-COPY .venv/Lib/site-packages/az_admin /usr/local/lib/python3.11/site-packages/az_admin
+#COPY .venv/Lib/site-packages/az_admin /usr/local/lib/python3.11/site-packages/az_admin
 
 # Скопируйте файл зависимостей в контейнер
 COPY requirements.txt /app/
