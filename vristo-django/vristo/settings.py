@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'main',
     'django_celery_results',
     'django_celery_beat',
+    'rest_framework',
+    'main_api.apps.MainApiConfig',
 
 ]
 
@@ -112,7 +114,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('SQL_PASSWORD', 'dashboard'),
         'HOST': os.environ.get('SQL_HOST', 'localhost'),
         # 'HOST': 'localhost',
-        'PORT': os.environ.get('SQL_PORT','5432'),
+        'PORT': os.environ.get('SQL_PORT', '5432'),
     }
 }
 
@@ -162,7 +164,8 @@ TAILWIND_CSS_PATH = 'assets/css/styles.css'
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-REDIS_HOST = 'redis'
+# REDIS_HOST = 'redis' # for docker
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
@@ -170,3 +173,13 @@ CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#     ],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ],
+# }

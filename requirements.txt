@@ -5,6 +5,7 @@ django-celery-results==2.5.1
 django-extensions==3.2.3
 django-redis==5.4.0
 django-tailwind==3.6.0
+djangorestframework==3.14.0
 flower==2.0.1
 ipython==8.18.1
 psycopg2-binary==2.9.9

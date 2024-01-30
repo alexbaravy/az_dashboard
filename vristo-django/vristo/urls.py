@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("main.urls")),
     path('main-admin/', main_admin_site.urls),
-    path("", include('az_admin.urls'))
+    path("", include('az_admin.urls')),
+    path("api/v1/", include("main_api.urls")),
 ]
