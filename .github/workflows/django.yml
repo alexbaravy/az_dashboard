@@ -8,15 +8,15 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
     env:
       DJANGO_ALLOWED_HOSTS: 'localhost 127.0.0.1'
     strategy:
       max-parallel: 4
       matrix:
-        python-version: ['3.11']
-
+        python-version: ['3.10','3.11']
+        os: [ubuntu-latest,windows-latest ]
+    runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
