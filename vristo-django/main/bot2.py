@@ -1,19 +1,74 @@
 import telebot
 from telebot import types
 import logging
+import requests
 
 bot = telebot.TeleBot('6737786334:AAGkEDiIt-24Qim7i8kYZyWS61-SWWRlEOM')
+API_URL = 'http://127.0.0.1:8000/api/v1/'
+
+handlers = {
+    'CDN Providers': lambda message: handle_api_request(message, 'cdns',
+                                                        ['id', 'service_provider_name', 'ip', 'start_date', 'end_date',
+                                                         'check_enabled', 'deactivated', 'note']),
+    'Domains': lambda message: handle_api_request(message, 'domains',
+                                                  ['id', 'service_provider_name', 'url', 'start_date', 'end_date',
+                                                   'check_enabled', 'deactivated',
+                                                   'note']),
+    'Hostings': lambda message: handle_api_request(message, 'hostings',
+                                                   ['id', 'service_provider_name', 'category_name', 'start_date',
+                                                    'end_date', 'check_enabled',
+                                                    'deactivated', 'note']),
+    'Websites': lambda message: handle_api_request(message, 'websites',
+                                                   ['id', 'name', 'check_enabled', 'deactivated', 'note',
+                                                    'category_name', 'domain_url',
+                                                    'hosting_ip', 'cdn_ip']),
+    'Unavailable logs': lambda message: handle_api_request(message, 'unavailable-log',
+                                                           ['id', 'domain_name', 'start_date', 'end_date',
+                                                            'start_status', 'end_status']),
+}
+
+
+def make_api_request(api_tail):
+    try:
+        response = requests.get(API_URL + api_tail)
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        return str(e)
+
+
+def format_as_table(data_list, headers):
+    column_widths = [len(header) for header in headers]
+    for row in data_list:
+        for i, cell in enumerate(row):
+            column_widths[i] = max(column_widths[i], len(str(cell)))
+
+    header_row = ' | '.join(header.ljust(column_widths[i]) for i, header in enumerate(headers))
+    separator = '+'.join('-' * column_widths[i] for i, _ in enumerate(headers))
+    data_rows = []
+    for row in data_list:
+        data_row = ' | '.join(str(cell).ljust(column_widths[i]) for i, cell in enumerate(row))
+        data_rows.append(data_row)
+
+    table = [header_row, separator] + data_rows
+    return '\n'.join(table)
+
+
+def handle_api_request(message, api_tail, headers):
+    data = make_api_request(api_tail)
+    if isinstance(data, list) and len(data) > 0:
+        data_list = [[item[header] for header in headers] for item in data]
+        formatted_table = format_as_table(data_list, headers)
+        bot.send_message(message.chat.id, text=f"{message.text}:\n" + formatted_table)
+    else:
+        bot.send_message(message.chat.id, text="No data available or error fetching data.")
 
 
 @bot.message_handler(commands=['start'])
 def start(message):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True, resize_keyboard=True)
-    button1 = types.KeyboardButton('CDN Providers')
-    button2 = types.KeyboardButton('Domains')
-    button3 = types.KeyboardButton('Hostings')
-    button4 = types.KeyboardButton('Websites')
-    button5 = types.KeyboardButton('Unavailable logs')
-    markup.add(button1, button2, button3, button4, button5)
+    buttons = list(handlers.keys())
+    for button in buttons:
+        markup.add(types.KeyboardButton(button))
 
     bot.send_message(message.chat.id,
                      text="Hello, {0.first_name}! I'm your helper".format(
@@ -22,18 +77,12 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def func(message):
-    if message.text == "CDN Providers":
-        bot.send_message(message.chat.id, text="CDN Providers")
-    elif message.text == "Domains":
-        bot.send_message(message.chat.id, text="Domains")
-    elif message.text == "Hostings":
-        bot.send_message(message.chat.id, "Hostings")
-    elif message.text == "Websites":
-        bot.send_message(message.chat.id, text="Websites")
-    elif message.text == "Unavailable logs":
-        bot.send_message(message.chat.id, text="Unavailable logs")
+    handler = handlers.get(message.text)
+    if handler:
+        handler(message)
     else:
         bot.send_message(message.chat.id, text="I dont know this command")
 
 
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
