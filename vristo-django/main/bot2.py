@@ -5,6 +5,9 @@ import requests
 
 bot = telebot.TeleBot('6737786334:AAGkEDiIt-24Qim7i8kYZyWS61-SWWRlEOM')
 API_URL = 'http://127.0.0.1:8000/api/v1/'
+API_TOKEN = 'f570f6e374e69b61d1555155b3081c83447be386'
+
+headers = {'Authorization': f'Token {API_TOKEN}'}
 
 handlers = {
     'CDN Providers': lambda message: handle_api_request(message, 'cdns',
@@ -30,7 +33,7 @@ handlers = {
 
 def make_api_request(api_tail):
     try:
-        response = requests.get(API_URL + api_tail)
+        response = requests.get(API_URL + api_tail, headers=headers)
         return response.json()
     except requests.exceptions.RequestException as e:
         return str(e)
