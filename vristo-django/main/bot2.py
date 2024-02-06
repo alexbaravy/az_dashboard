@@ -1,13 +1,16 @@
 import telebot
 from telebot import types
-import logging
 import requests
+from dotenv import load_dotenv
+import os
 
-bot = telebot.TeleBot('6737786334:AAGkEDiIt-24Qim7i8kYZyWS61-SWWRlEOM')
-API_URL = 'http://127.0.0.1:8000/api/v1/'
-API_TOKEN = 'f570f6e374e69b61d1555155b3081c83447be386'
+load_dotenv()
 
-headers = {'Authorization': f'Token {API_TOKEN}'}
+bot = telebot.TeleBot(os.environ.get('BOT_TOKEN_FOR_API'))
+api_url = os.environ.get('API_URL')
+api_token = os.environ.get('API_TOKEN')
+
+headers = {'Authorization': f'Token {api_token}'}
 
 handlers = {
     'CDN Providers': lambda message: handle_api_request(message, 'cdns',
@@ -33,7 +36,7 @@ handlers = {
 
 def make_api_request(api_tail):
     try:
-        response = requests.get(API_URL + api_tail, headers=headers)
+        response = requests.get(api_url + api_tail, headers=headers)
         return response.json()
     except requests.exceptions.RequestException as e:
         return str(e)
@@ -61,7 +64,7 @@ def handle_api_request(message, api_tail, headers):
     if isinstance(data, list) and len(data) > 0:
         data_list = [[item[header] for header in headers] for item in data]
         formatted_table = format_as_table(data_list, headers)
-        bot.send_message(message.chat.id, text=f"{message.text}:\n" + formatted_table)
+        bot.send_message(message.chat.id, text=f"{message.text}:\n" + formatted_table, disable_web_page_preview=True)
     else:
         bot.send_message(message.chat.id, text="No data available or error fetching data.")
 

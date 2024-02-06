@@ -4,18 +4,22 @@ import requests
 from bs4 import BeautifulSoup
 from django.utils import timezone
 from .models import Website, UnavailableLog
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 # telegram API keys
-BOT = telebot.TeleBot('6160113526:AAEpoXM_F43Fi9jMQ-1SUJ2ngFB-CtMNQKA')
-CHAT_ID = '-4116845078'
+bot = telebot.TeleBot(os.environ.get('BOT_TOKEN'))
+chat_id = os.environ.get('CHAT_ID')
 
-AZ_VERIFICATION_TAG = 'az-verification'
+az_verification_tag = os.environ.get('AZ_VERIFICATION_TAG')
 
 
 def send_notification(result):
-    BOT.send_message(CHAT_ID, result)
+    bot.send_message(chat_id, result, disable_web_page_preview=True)
     logger.info(f"Notification: {result}")
 
 
@@ -41,7 +45,7 @@ def check_website(id, url, domain_hash):
 
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
-            meta_tag = soup.find('meta', {'name': AZ_VERIFICATION_TAG})
+            meta_tag = soup.find('meta', {'name': az_verification_tag})
 
             if meta_tag and meta_tag.get('content') == domain_hash:
                 result = f'{url}: OK'
