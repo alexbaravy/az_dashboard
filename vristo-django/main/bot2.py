@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 bot = telebot.TeleBot(os.environ.get('BOT_TOKEN_FOR_API'))
-api_url = os.environ.get('API_URL')
+api_url = os.environ.get('API_URL', 'http://127.0.0.1:8000/api/v1/')
 api_token = os.environ.get('API_TOKEN')
 
 headers = {'Authorization': f'Token {api_token}'}

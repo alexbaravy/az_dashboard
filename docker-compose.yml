@@ -56,6 +56,16 @@ services:
       - celery
       - redis
 
+  bot:
+    build: .
+    command: python main/bot2.py
+    volumes:
+        - ./vristo-django:/app
+    env_file:
+      - ./vristo-django/.env
+    depends_on:
+      - django
+
 
 volumes:
   postgres_data:
