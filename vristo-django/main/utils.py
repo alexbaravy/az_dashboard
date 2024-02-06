@@ -11,8 +11,8 @@ logger = logging.getLogger(__name__)
 
 
 class TelegramNotifier:
-    def __init__(self, token: str, chat_id: str):
-        self.bot = telebot.TeleBot(token)
+    def __init__(self, bot_token: str, chat_id: str):
+        self.bot = telebot.TeleBot(bot_token)
         self.chat_id = chat_id
 
     def send_notification(self, result: str):

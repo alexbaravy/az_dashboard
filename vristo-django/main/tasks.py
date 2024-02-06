@@ -5,7 +5,7 @@ from .models import CDN, Hosting, Domain, Website
 from .utils import ExpirationNotifier, TelegramNotifier, WebsiteChecker
 import os
 
-notifier = TelegramNotifier(token=os.environ.get('BOT_TOKEN'), chat_id=os.environ.get('CHAT_ID'))
+notifier = TelegramNotifier(bot_token=os.environ.get('BOT_TOKEN'), chat_id=os.environ.get('CHAT_ID'))
 
 @shared_task
 def get_websites():
