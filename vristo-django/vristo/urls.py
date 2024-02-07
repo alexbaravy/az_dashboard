@@ -20,9 +20,9 @@ from finance.admin import finance_admin_site
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("main.urls")),
+    # path("", include("main.urls")),
+    path("", include('az_admin.urls')),
     path('main-admin/', main_admin_site.urls),
     path('finance-admin/', finance_admin_site.urls),
-    path("", include('az_admin.urls')),
     path("api/v1/", include("main_api.urls")),
 ]

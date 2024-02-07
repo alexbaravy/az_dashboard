@@ -1,8 +1,9 @@
 from django.urls import path
-from az_admin import views
+from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('', views.index, name='index'),
 
     path('recover-password-v1/', views.UserPasswordChangeView.as_view(), name='recover_password_v1'),
 
@@ -23,4 +24,6 @@ urlpatterns = [
     path('accounts/password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/password_reset_complete.html'
     ), name='password_reset_complete'),
+
+    path('pages/maintenance/', views.pages_maintenance, name='pages_maintenance'),
 ]

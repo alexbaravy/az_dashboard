@@ -6,6 +6,10 @@ from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 
 
+def pages_maintenence(request):
+    return render(request, 'pages/pages_maintenence.html')
+
+
 # Create your views here.
 
 # Authentication
@@ -54,3 +58,11 @@ class UserPasswordChangeView(auth_views.PasswordChangeView):
 def user_logout_view(request):
     logout(request)
     return redirect('/accounts/login/')
+
+
+def index(request):
+    return render(request, 'index.html')
+
+
+def pages_maintenance(request):
+    return render(request, 'pages/maintenance.html')
