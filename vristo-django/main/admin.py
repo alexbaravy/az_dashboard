@@ -81,6 +81,7 @@ class WebsiteAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'domain', 'hosting', 'cdn', 'domain_hash', 'note']
     search_fields = ['name', 'category', 'domain', 'hosting', 'cdn', 'note']
 
+
 class UnavailableLogAdmin(admin.ModelAdmin):
     fields = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
     list_display = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
