@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'tailwind',
     'vristoDjango',
     'main',
+    'finance',
     'django_celery_results',
     'django_celery_beat',
     'rest_framework',
@@ -165,8 +166,8 @@ TAILWIND_CSS_PATH = 'assets/css/styles.css'
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-REDIS_HOST = 'redis' # for docker
-# REDIS_HOST = '127.0.0.1'
+# REDIS_HOST = 'redis' # for docker
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
