@@ -6,10 +6,6 @@ from django.contrib.auth import logout
 from django.contrib.auth import views as auth_views
 
 
-def pages_maintenence(request):
-    return render(request, 'pages/pages_maintenence.html')
-
-
 # Create your views here.
 
 # Authentication
