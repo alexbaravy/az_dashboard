@@ -4,29 +4,6 @@ from django.utils.html import format_html
 from .models import Account, Category, Currency, Transaction
 
 
-class FinanceAdminSite(AdminSite):
-    site_header = "AZ Dashboard2"
-    site_title = "Finance Panel"
-    index_title = "Finance Panel"
-
-    def get_app_list(self, request):
-        ordering = {
-            'Accounts': 1,
-            'Categories': 2,
-            'Currencies': 3,
-            'Transactions': 4
-        }
-
-        app_dict = self._build_app_dict(request)
-        app_list = sorted(app_dict.values(), key=lambda x: x['name'].lower())
-
-        # Sort the models alphabetically within each app.
-        for app in app_list:
-            app['models'].sort(key=lambda x: ordering[x['name']])
-
-        return app_list
-
-
 class AccountAdmin(admin.ModelAdmin):
     fields = ['name', 'balance', 'currency']
     list_display = ['name', 'balance', 'currency']

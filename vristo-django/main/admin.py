@@ -8,33 +8,6 @@ from .models import UnavailableLog
 from .widgets import CustomTextInput
 
 
-class MainAdminSite(AdminSite):
-    site_header = "AZ Dashboard"
-    site_title = "Admin Panel"
-    index_title = "Admin Panel"
-
-    def get_app_list(self, request):
-        ordering = {
-            'Service providers': 1,
-            'Hosting categories': 2,
-            'Website categories': 3,
-            'Domains': 5,
-            'Hostings': 5,
-            'CDN Providers': 6,
-            'Websites': 7,
-            'Unavailable logs': 8
-        }
-
-        app_dict = self._build_app_dict(request)
-        app_list = sorted(app_dict.values(), key=lambda x: x['name'].lower())
-
-        # Sort the models alphabetically within each app.
-        for app in app_list:
-            app['models'].sort(key=lambda x: ordering[x['name']])
-
-        return app_list
-
-
 class ServiceProviderAdmin(admin.ModelAdmin):
     fields = ['name', 'url', 'login', 'password', 'note']
     list_display = ['name', 'display_url', 'login', 'password', 'note']
