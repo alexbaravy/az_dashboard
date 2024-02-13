@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'debug_toolbar',
     'tailwind',
     'vristoDjango',
     'main',
@@ -66,7 +67,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'middleware.authentication.AuthenticationMiddleware'
+    'middleware.authentication.AuthenticationMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
 ]
 
 CACHES = {
@@ -115,8 +118,8 @@ DATABASES = {
         'NAME': os.environ.get('SQL_DATABASE', 'dashboard'),
         'USER': os.environ.get('SQL_USER', 'dashboard'),
         'PASSWORD': os.environ.get('SQL_PASSWORD', 'dashboard'),
-        'HOST': os.environ.get('SQL_HOST', 'localhost'),
-        # 'HOST': 'localhost',
+        # 'HOST': os.environ.get('SQL_HOST', 'localhost'),
+        'HOST': 'localhost',
         'PORT': os.environ.get('SQL_PORT', '5432'),
     }
 }
@@ -167,8 +170,8 @@ TAILWIND_CSS_PATH = 'assets/css/styles.css'
 CELERY_TIMEZONE = "Europe/Minsk"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-REDIS_HOST = 'redis' # for docker
-# REDIS_HOST = '127.0.0.1'
+# REDIS_HOST = 'redis' # for docker
+REDIS_HOST = '127.0.0.1'
 REDIS_PORT = '6379'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
@@ -186,3 +189,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]

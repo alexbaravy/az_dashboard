@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    # path("", include("main.urls")),
-    path("", include('az_admin.urls')),
+    path("", include("main.urls")),
+    # path("", include('az_admin.urls')),
     path('admin/', admin.site.urls),
     path("api/v1/", include("main_api.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
