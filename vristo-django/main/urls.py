@@ -2,6 +2,12 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    path('main/cdn_table', views.cdn_table, name='cdn_table'),
+    path('main/domain_table', views.domain_table, name='domain_table'),
+    path('main/hosting_table', views.hosting_table, name='hosting_table'),
+    path('main/website_table', views.website_table, name='website_table'),
+    path('main/unavailable_log_table', views.unavailable_log_table, name='unavailable_log_table'),
+
     path('', views.index, name='index'),
     path('analytics', views.analytics, name='analytics'),
     path('finance', views.finance, name='finance'),

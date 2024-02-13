@@ -4,6 +4,11 @@ from django.utils import timezone
 
 
 # Create your models here.
+class ModelMetaClass(type(models.Model)):
+    def get_verbose_name_plural(cls):
+        return cls._meta.verbose_name_plural
+
+
 class BaseCredential(models.Model):
     login = models.CharField(max_length=50, default='admin')
     password = models.CharField(max_length=255, default='admin')
@@ -21,7 +26,7 @@ class ServiceProvider(BaseCredential):
         return self.name
 
 
-class BaseService(models.Model):
+class BaseService(models.Model, metaclass=ModelMetaClass):
     service_provider = models.ForeignKey('ServiceProvider', on_delete=models.CASCADE)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -32,12 +37,19 @@ class BaseService(models.Model):
     class Meta:
         abstract = True
 
+    select_related_fields = ['service_provider']
+
 
 class Domain(BaseService):
     url = models.URLField(max_length=255)
 
     def __str__(self):
         return self.url
+
+    class Meta:
+        verbose_name_plural = 'Domains'
+
+    display_fields = ['id', 'service_provider__name', 'url', 'start_date', 'end_date', 'note']
 
 
 class HostingCategory(models.Model):
@@ -57,6 +69,12 @@ class Hosting(BaseService, BaseCredential):
     def __str__(self):
         return self.ip
 
+    class Meta:
+        verbose_name_plural = 'Hosting categories'
+
+    select_related_fields = ['service_provider', 'category']
+    display_fields = ['id', 'service_provider__name', 'category__name', 'ip', 'start_date', 'end_date', 'note']
+
 
 class CDN(BaseService, BaseCredential):
     ip = models.GenericIPAddressField(blank=False, null=False)
@@ -67,6 +85,8 @@ class CDN(BaseService, BaseCredential):
     class Meta:
         verbose_name = 'CDN'
         verbose_name_plural = 'CDN Providers'
+
+    display_fields = ['id', 'service_provider__name', 'ip', 'start_date', 'end_date', 'note']
 
 
 class WebsiteCategory(models.Model):
@@ -79,7 +99,7 @@ class WebsiteCategory(models.Model):
         verbose_name_plural = 'Website categories'
 
 
-class Website(models.Model):
+class Website(models.Model, metaclass=ModelMetaClass):
     name = models.CharField(max_length=255)
     category = models.ForeignKey(WebsiteCategory, on_delete=models.CASCADE)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
@@ -98,10 +118,22 @@ class Website(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Websites'
 
-class UnavailableLog(models.Model):
+    select_related_fields = ['category', 'domain', 'hosting', 'cdn']
+    display_fields = ['id', 'name', 'category__name', 'domain__url', 'hosting__ip', 'cdn__ip', 'note']
+
+
+class UnavailableLog(models.Model, metaclass=ModelMetaClass):
     website = models.ForeignKey(Website, on_delete=models.CASCADE)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(null=True, blank=True)
     start_status = models.IntegerField(null=True, blank=True)
     end_status = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Unavailable Logs'
+
+    select_related_fields = ['website']
+    display_fields = ['id', 'website__name', 'start_date', 'end_date', 'start_status', 'end_status']
