@@ -88,15 +88,13 @@ class UnavailableLogAdmin(admin.ModelAdmin):
     search_fields = ['website', 'start_date', 'end_date', 'start_status', 'end_status']
 
 
-main_admin_site = MainAdminSite(name='main_admin')
+admin.site.register(ServiceProvider, ServiceProviderAdmin)
+admin.site.register(HostingCategory, HostingCategoryAdmin)
+admin.site.register(WebsiteCategory, WebsiteCategoryAdmin)
 
-main_admin_site.register(ServiceProvider, ServiceProviderAdmin)
-main_admin_site.register(HostingCategory, HostingCategoryAdmin)
-main_admin_site.register(WebsiteCategory, WebsiteCategoryAdmin)
+admin.site.register(Domain, DomainAdmin)
+admin.site.register(Hosting, HostingAdmin)
+admin.site.register(CDN, CDNAdmin)
 
-main_admin_site.register(Domain, DomainAdmin)
-main_admin_site.register(Hosting, HostingAdmin)
-main_admin_site.register(CDN, CDNAdmin)
-
-main_admin_site.register(Website, WebsiteAdmin)
-main_admin_site.register(UnavailableLog, UnavailableLogAdmin)
+admin.site.register(Website, WebsiteAdmin)
+admin.site.register(UnavailableLog, UnavailableLogAdmin)

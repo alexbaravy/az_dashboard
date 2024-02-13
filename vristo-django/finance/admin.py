@@ -61,9 +61,7 @@ class TransactionAdmin(admin.ModelAdmin):
             account.save()
 
 
-finance_admin_site = FinanceAdminSite(name='finance_admin')
-
-finance_admin_site.register(Account, AccountAdmin)
-finance_admin_site.register(Category, CategoryAdmin)
-finance_admin_site.register(Currency, CurrencyAdmin)
-finance_admin_site.register(Transaction, TransactionAdmin)
+admin.site.register(Account, AccountAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Currency, CurrencyAdmin)
+admin.site.register(Transaction, TransactionAdmin)

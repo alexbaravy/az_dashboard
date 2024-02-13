@@ -35,7 +35,6 @@ try:
 except ImportError:
     from ordereddict import OrderedDict  # Python 2.6
 
-
 default_apps_icon = {
     'auth': 'fa fa-users'
 }
@@ -124,16 +123,6 @@ def get_app_list(context, order=True):
 
     # Sort the apps alphabetically.
     app_list = list(app_dict.values())
-
-    # ordering = {
-    #     'Service providers': 1,
-    #     'Hosting categories': 2,
-    #     'Website categories': 3,
-    #     'Domains': 5,
-    #     'Hostings': 5,
-    #     'CDN Providers': 6,
-    #     'Websites': 7
-    # }
 
     if order:
         app_list.sort(key=lambda x: x['name'].lower())
@@ -459,6 +448,19 @@ def get_menu_items(context):
                 current_found = True
             else:
                 app['current'] = False
+
+    main_app = []
+    django_app = []
+
+    for app in app_list:
+        if app['app_label'] in ['main', 'finance']:
+            main_app.append(app)
+        else:
+            django_app.append(app)
+
+    main_app_dict = {'main_apps': main_app}
+    django_app_dict = {'django_apps': django_app}
+    app_list = [main_app_dict, django_app_dict]
 
     return app_list
 
