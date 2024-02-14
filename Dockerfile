@@ -24,12 +24,9 @@ COPY vristo-django/ /app/
 #RUN apk --update add postgresql-client \
 #    && rm -rf /var/cache/apk/*
 
-COPY backup.sql /app/
+#COPY backup.sql /app/
 # не работает? пришлось вручную  Get-Content backup.sql | docker exec -i a2af417ce680 psql -U dashboard -d dashboard
 #RUN psql -U dashboard -d dashboard < backup.sql
-
-# Создайте и примените миграции Django
-#RUN python manage.py migrate
 
 # Соберите статические файлы Django
 #RUN python manage.py collectstatic --noinput

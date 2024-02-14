@@ -26,6 +26,11 @@ class DomainFactory(factory.django.DjangoModelFactory):
     check_enabled = factory.Faker('boolean', chance_of_getting_true=50)
     deactivated = factory.Faker('boolean', chance_of_getting_true=50)
 
+class HostingCategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = HostingCategory
+
+    name = factory.LazyAttribute(lambda _: fake.word())
 
 class HostingFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -54,6 +59,13 @@ class CDNFactory(factory.django.DjangoModelFactory):
     password = factory.LazyAttribute(lambda _: fake.password())
     check_enabled = factory.Faker('boolean', chance_of_getting_true=50)
     deactivated = factory.Faker('boolean', chance_of_getting_true=50)
+
+
+class WebsiteCategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = WebsiteCategory
+
+    name = factory.LazyAttribute(lambda _: fake.word())
 
 
 class WebsiteFactory(factory.django.DjangoModelFactory):
