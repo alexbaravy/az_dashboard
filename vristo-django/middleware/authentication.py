@@ -11,7 +11,8 @@ class AuthenticationMiddleware:
         #         '/admin/') and not request.path_info.startswith('/pages/maintenance/'):
         #     return redirect(reverse('pages_maintenance'))
 
-        if not request.user.is_authenticated and not request.path_info.startswith('/admin/'):
+        if not request.user.is_authenticated and not request.path_info.startswith(
+                '/admin/') and not request.path_info.startswith('/api/'):
             return redirect('/admin/')
 
         response = self.get_response(request)
