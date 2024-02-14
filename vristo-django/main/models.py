@@ -70,7 +70,7 @@ class Hosting(BaseService, BaseCredential):
         return self.ip
 
     class Meta:
-        verbose_name_plural = 'Hosting categories'
+        verbose_name_plural = 'Hostings'
 
     select_related_fields = ['service_provider', 'category']
     display_fields = ['id', 'service_provider__name', 'category__name', 'ip', 'start_date', 'end_date', 'note']
@@ -111,9 +111,10 @@ class Website(models.Model, metaclass=ModelMetaClass):
     note = models.TextField(max_length=255, blank=True)
 
     def save(self, *args, **kwargs):
-        domain_hash = hashlib.sha256(self.domain.url.encode('utf-8')).hexdigest()
-        self.domain_hash = domain_hash
-        super(Website, self).save(*args, *kwargs)
+        if not self.id:
+            domain_hash = hashlib.sha256(self.domain.url.encode('utf-8')).hexdigest()
+            self.domain_hash = domain_hash
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
