@@ -1,3 +1,4 @@
+import logging
 import telebot
 from telebot import types
 import requests
@@ -8,7 +9,7 @@ import os
 class APIClient:
     def __init__(self, api_url: str, api_token: str):
         self.api_url = api_url
-        self.headers = {'Authorization': f'Token:{api_token}'}
+        self.headers = {'Authorization': f'{api_token}'}
 
     def make_request(self, endpoint: str) -> str:
         try:
