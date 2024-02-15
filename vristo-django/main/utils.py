@@ -33,6 +33,7 @@ class WebsiteChecker:
             if response.status_code == 200:
                 result = self._process_successful_response(id, url, domain_hash, response)
             else:
+                self._send_unavailable_log(id, response)
                 result = f"{url}: Error: HTTP {response.status_code}"
         except requests.RequestException as e:
             result = f"{url}: Error: {str(e)}"
