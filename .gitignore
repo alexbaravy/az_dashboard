@@ -161,3 +161,4 @@ cython_debug/
 templates/
 static/
 static_src/
+backup.sql
