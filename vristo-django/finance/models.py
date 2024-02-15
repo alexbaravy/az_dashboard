@@ -1,6 +1,11 @@
 from django.db import models
 
 
+class ModelMetaClass(type(models.Model)):
+    def get_verbose_name_plural(cls):
+        return cls._meta.verbose_name_plural
+
+
 # Create your models here.
 class Currency(models.Model):
     name = models.CharField(max_length=100)
@@ -39,7 +44,7 @@ class Category(models.Model):
         verbose_name_plural = 'Categories'
 
 
-class Transaction(models.Model):
+class Transaction(models.Model, metaclass=ModelMetaClass):
     TYPE_CHOICES = [
         ('income', 'Income'),
         ('expense', 'Expense'),
@@ -54,3 +59,9 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.description} on {self.date}"
+
+    class Meta:
+        verbose_name_plural = 'Transactions'
+
+    select_related_fields = ['account', 'category']
+    display_fields = ['id', 'category__name', 'type', 'amount', 'date', 'description']
