@@ -17,3 +17,4 @@ beautifulsoup4~=4.12.2
 python-dotenv~=1.0.0
 Faker~=23.1.0
 factory-boy==3.3.0
+tornado>=6.5 # not directly required, pinned by Snyk to avoid a vulnerability
