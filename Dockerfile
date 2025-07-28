@@ -1,5 +1,5 @@
 # Используйте официальный образ Python для вашего проекта Django
-FROM python:3.13.2-alpine
+FROM python:3.14.0rc1-alpine
 
 # Установите переменные окружения
 ENV PYTHONDONTWRITEBYTECODE 1
